@@ -1,37 +1,105 @@
-# L6_L7_54 — Museum Admission
 
-Lab 7: Fuzzing for Input Validation Bugs
+# L6_L7_54 - Museum Admission
 
-## About
+## Lab 7: Fuzz Testing for Input Validation Bugs
 
-A small Python module that reads museum admission details typed in by a user: visitor names, group ages and visit dates. It assumes every input is well formed.
+### Objective
 
-## Files
+To apply property-based fuzz testing using the Hypothesis library to identify input validation bugs in a Python application and improve its robustness by fixing the discovered issues.
 
-| File | Description |
-|------|-------------|
-| `museum_admission_parser.py` | The buggy module you will fuzz and fix |
-| `test_museum_admission_parser.py` | Hypothesis test template to complete |
+### Project Structure
 
-Keep all your Lab 7 work in this `LAB7` folder.
+```text
+LAB7/
+├── museum_admission_parser.py
+├── test_museum_admission_parser.py
+├── Lab7_FuzzTesting_Evidence.pdf
+└── README.md
+```
 
-Follow the lab handout for the full instructions. Use the file names above wherever the handout refers to the code and test files.
+### Requirements
 
-## Screenshots
+- Python 3.8+
+- Hypothesis
+- Pytest
 
-| Screenshot | What it must show |
-|------------|-------------------|
-| SS1 | `python museum_admission_parser.py` run on the buggy module |
-| SS2 | `pytest test_museum_admission_parser.py` with your completed tests failing on the buggy module |
-| SS3 | `python museum_admission_parser.py` run on your fixed module |
-| SS4 | `pytest test_museum_admission_parser.py` with all tests passing on your fixed module |
+### Installation
 
-## Deliverables
+Install the required dependencies:
 
-Commit these three files in this `LAB7` folder:
+```bash
+pip install hypothesis pytest
+```
 
-1. `museum_admission_parser.py`: your fixed module. All three functions must handle any input without crashing.
-2. `test_museum_admission_parser.py`: your completed Hypothesis tests, one for each of the three functions.
-3. `SRN_NAME_LAB7.pdf`: screenshots SS1 to SS4 and your answers to the three reflection questions in the handout.
+### Execution
 
-Be ready to explain the bugs you found and how you fixed them. You may be called on to present.
+Navigate to the LAB7 directory:
+
+```bash
+cd LAB7
+```
+
+Run the original/fixed application:
+
+```bash
+python museum_admission_parser.py
+```
+
+Run the fuzz tests:
+
+```bash
+python -m pytest test_museum_admission_parser.py -v
+```
+
+### Functions Tested
+
+1. `format_visitor_name()` - Formats visitor names into surname-first format and handles empty or invalid inputs.
+
+2. `parse_group_ages()` - Parses space-separated group ages into integers while handling invalid entries and unexpected inputs.
+
+3. `parse_visit_date()` - Parses dates in YYYY-MM-DD format and validates calendar dates.
+
+### Fuzz Testing
+
+Hypothesis was used to generate unexpected and edge-case inputs automatically.
+
+The tests were designed to identify crashes caused by invalid inputs, including:
+
+- Empty strings and None values.
+- Unexpected data types.
+- Non-numeric age values.
+- Invalid date formats.
+- Impossible calendar dates.
+
+### Bugs Fixed
+
+- Added input type and empty-value validation.
+- Added exception handling for invalid age values.
+- Added validation for negative ages.
+- Added proper calendar date validation.
+- Ensured the functions handle unexpected inputs without crashing.
+
+### Test Results
+
+All three Hypothesis fuzz tests passed after fixing the application.
+
+```text
+3 passed
+```
+
+### Screenshots and Evidence
+
+`Lab7_FuzzTesting_Evidence.pdf` contains the screenshots documenting:
+
+- SS1: Original application execution.
+- SS2: Failing fuzz tests on the buggy application.
+- SS3: Execution of the fixed application.
+- SS4: Successful fuzz tests after fixing the bugs.
+
+### Deliverables
+
+1. Fixed `museum_admission_parser.py`.
+2. Updated `test_museum_admission_parser.py`.
+3. `Lab7_FuzzTesting_Evidence.pdf`.
+
+
